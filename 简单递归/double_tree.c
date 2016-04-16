@@ -1,4 +1,5 @@
 #include "stdio.h"
+#include "stdlib.h"
 int max(int a, int b){
 	return a > b ? a:b;
 }
@@ -10,28 +11,57 @@ int hei(int n){
 	}
 	int r = a[2*n-1];
 	int l = a[2*n];
-	
-	return max( wid(r) , wid(l) ) + 1; 
+	//printf("%d Node : left : %d\t right : %d\n",n , r , l );
+	return max( hei(r) , hei(l) ) + 1; 
 }
 int wid(){
-	int qlen = n / 2 + 1;
-	int q[qlen];
-	q[0] = 1;
-	int p = 0;
-	int lastNode = 0;
-	int nowNode = 0;
-	while(p >= 0){
-		
+	int temp;
+	int qlen = n / 2 + 2;
+	int q[qlen],i=0,j=1;
+	q[i] = 1;
+//	printf("len : %d\n", qlen);
+	int len = 1,r,l;
+	int tempNode,maxNode = 1;
+	while(len > 0){
+		tempNode = len;
+		while(tempNode > 0){
+			r = a[  2 * q[i] - 1 ];
+//			printf("r : %d\t", r);
+			l = a[ 2 * q[i] ];
+//			printf("l : %d\n", l);
+			if(r != 0){
+				q[j] = r;
+				j ++;
+				if(j >= qlen) j = 0; 
+			}
+			if(l != 0){
+				q[j] = l;
+				j ++;
+				if(j >= qlen) j = 0;
+			}
+			i ++;
+			if(i >= qlen) i = 0;
+			tempNode --;
+//			printf("i : %d\t j : %d\n",i,j );
+//			scanf("%d", &temp);
+		}
+		len = j - i;
+		if (len < 0) len += qlen;
+//		printf("Now : %d\n"  ,len);
+		if( len > maxNode){
+			maxNode = len;
+		} 
 	} 
+	return maxNode;
 }
 int main(){
-	
 	scanf("%d", &n);
-	int a[2*n+1];
+	a = (int *)malloc( (2*n+1) * sizeof(int)) ;
 	int i;
-	for(i = 1; i <= 2n; i ++){
-		scanf("%d",a[i]);
+	for(i = 1; i <= 2*n; i ++){
+		scanf("%d",a + i);
 	}
-	printf("%d %d", wid(1), hei(1));
+	printf("%d ", hei(1));
+	printf("%d\n", wid());
 	return 0;
 }
