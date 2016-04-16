@@ -61,7 +61,7 @@ int main(){
 	for(i = 1; i <= 2*n; i ++){
 		scanf("%d",a + i);
 	}
-	printf("%d ", hei(1));
-	printf("%d\n", wid());
+	printf("%d ", wid());
+	printf("%d\n", hei(1));
 	return 0;
 }
